@@ -1,0 +1,12 @@
+tmp
+db/schema.rb
+doc
+log
+config/database.yml
+*.txt
+*.bat
+*Thumbs.db*
+public/system
+public/uploads
+public/*uploads
+public/uploads*
