@@ -12,9 +12,9 @@
 	}
 	// Подключение файлов в указанном каталоге
 	function require_files_from($dir_path){
-        $files = directory_files($dir_path);
+        $files = directory_files("$dir_path/");
         foreach($files as $file){
-            require_once($dir_path.$file);
+            require_once("$dir_path/$file");
         }
 	}
 ?>

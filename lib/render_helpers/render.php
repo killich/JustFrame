@@ -17,11 +17,22 @@
 		ob_end_clean();
 		return $output;
 	}
-    // Отрисовать шаблон
+  // Отрисовать шаблон
 	function render($file, &$c){
-        $file = $c->fw->view_path."$file.php";
-		return template_evalute($file, $c);
+    $file = $c->fw->view_path."$file.php";
+    return template_evalute($file, $c);
 	}
+  // Отрисовать фрагмент вида
+  function mvc_partial($file){
+		$file_text = file_get_contents(__DIR__."/../../app/view/$file.php");
+		$code = ' ?>'.$file_text.'<?php ';
+		$output = '';
+		ob_start();
+			eval($code);
+			$output = ob_get_contents();
+		ob_end_clean();
+		return $output;
+  }
     // Отрисовать макет
     function layout($layout, &$c){
         // Регистрация переменных

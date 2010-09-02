@@ -4,13 +4,13 @@
     // http://zayko.habrahabr.ru
     
     //error_reporting(0);                               // Отключение вывода ошибок
-	require_once('./config/consts.php');                // Подключение конфигураций
-	require_once('./config/data_base_connect.php');     // Подключение соединения с БД
+    require_once('./config/consts.php');                // Подключение конфигураций
+    require_once('./config/data_base_connect.php');     // Подключение соединения с БД
     require_once(LIB_PATH.'/file_helpers/file.php');    // Базовые функции-помощники работы с файлами
-	require_files_from(LIB_PATH);                       // Загрузка всех базовых компонент
+    require_files_from(LIB_PATH);                       // Загрузка всех базовых компонент
     session_open();                                     // Открыть сессию
-	$fw = new FrameWork;                                // Создать новый объект класса FrameWork
-	controller_execute($fw);                            // Выполнение действия контроллера
+    $fw = new FrameWork;                                // Создать новый объект класса FrameWork
+    controller_execute($fw);                            // Выполнение действия контроллера
     
     // Теперь смело идем в контроллер
     // app/controller/students
