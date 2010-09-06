@@ -1,5 +1,10 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html>
 	<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Hello!</title>
 		<link rel="stylesheet" href="/public/css/basic.css" type="text/css" media="screen" />
 		
@@ -38,10 +43,8 @@
 	<body>
         <?
             flash($data['flash']);
-            echo $stdout['content'];
-                if($fw->current_page('users', 'signup')){
-                echo render('_login_form', $c);
-            }
+            //$stdout['users'];
+
         ?>
 	</body>
 </html>

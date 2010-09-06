@@ -1,29 +1,28 @@
 <?php
     # DATABASE connection params
     define("DATABASE_HOST", "localhost");
-    define("DATABASE_NAME", "just_frame");
+    define("DATABASE_NAME", "moodle");
     define("DATABASE_USER", "root");
     define("DATABASE_PASSWORD", "");
     
     # Каталог, в котором хранится mvc (при интеграции mvc в другой проект)
     # mvc directory for integration with another project
-    define("INJECTION_MODE", true);
-    define("MVC_PATH_PREFIX", "/_mvc/");
+    define("MVC_PATH_PREFIX", '/_mvc/'); // '/_mvc/' or '/' for empty project
     
     # INDEX page routing
     define("ROOT_CONTROLLER", "users");
     define("ROOT_ACTION", "index");
     /*==============================================================*/
-    define("MODEL_PATH", "./app/model/");
-    define("VIEW_PATH", "./app/view/");
-    define("CONTROLLER_PATH", "./app/controller/");
-    define("LAYOUT_PATH", "./app/view/layout/");
+    define("MODEL_PATH", "./app/models/");
+    define("VIEW_PATH", "./app/views/");
+    define("CONTROLLER_PATH", "./app/controllers/");
+    define("LAYOUT_PATH", "./app/views/layouts/");
 
     define("VALIDATION_PATH", "./app/model/validators/");
     define("FILTRATION_PATH", "./app/model/filters/");
 
     define("LIB_PATH", "./lib/");
-    define("PUBLIC_PATH", "/public/");
+    define("PUBLIC_PATH", "public/");
     /*==============================================================*/
     define("EMAIL_FORMAT", "/^[\.\-\+A-Za-z0-9]+@{1,1}[\.\-\+A-Za-z0-9]+\.[A-Za-z0-9]{2,6}$/");
     define("LOGIN_FORMAT", "/^[\-A-Za-z0-9]+$/");

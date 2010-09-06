@@ -25,12 +25,16 @@
 			// Чиста параметров action, controller
 			$this->action_preparation();
 			$this->controller_preparation();
+      
+      // Removed ==> ActiveRecord
 			// Формирование переменных с путями
-			$this->model_path = MODEL_PATH.$this->controller.'.php';
+			//$this->model_path = MODEL_PATH.$this->controller.'.php';
+			//$this->validator_path = VALIDATION_PATH.$this->controller.'.php';
+			//$this->filter_path = FILTRATION_PATH.$this->controller.'.php';
+      
 			$this->view_path = VIEW_PATH.$this->controller."/";
 			$this->controller_path = CONTROLLER_PATH.$this->controller.'.php';       
-			$this->validator_path = VALIDATION_PATH.$this->controller.'.php';
-			$this->filter_path = FILTRATION_PATH.$this->controller.'.php';
+
 		}
         function current_page($controller, $action){
             $controller = camelize($controller);
@@ -40,21 +44,21 @@
         }
 		// Подготовить переменную action
 		protected function action_preparation(){
-            $this->action = $this->preparation($this->action);
-			$this->action = underscore($this->action);
+      $this->action = $this->preparation($this->action);
+      $this->action = underscore($this->action);
 		}
 		// Подготовить переменную controller
-		protected function controller_preparation(){
-            $this->controller = $this->preparation($this->controller);
-			$this->controller = camelize($this->controller);
+    protected function controller_preparation(){
+      $this->controller = $this->preparation($this->controller);
+      $this->controller = camelize($this->controller);
 		}
-        protected function preparation($str){
-			// Обрезка до 30 символов
-			$str = substr($str, 0, 30);
-            // Попробуем вырезать потенциально опасные слова
-			$match = '/(select|from|drop|update|\?|\<|\>|php|\*)/i';
-			$str = preg_replace($match, '', $str);
-            return $str;
-        }
+    protected function preparation($str){
+      // Обрезка до 30 символов
+      $str = substr($str, 0, 30);
+      // Попробуем вырезать потенциально опасные слова
+      $match = '/(select|from|drop|update|\?|\<|\>|php|\*)/i';
+      $str = preg_replace($match, '', $str);
+      return $str;
+    }
 	}//class FrameWork
 ?>

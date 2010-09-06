@@ -4,6 +4,8 @@
 	// echo f('students', 'test', 'x=y&z=7', true, "class='block' style='display:none'");
     // <form method='post' action='?controller=students&amp;action=test&amp;x=y&amp;z=7' enctype='multipart/form-data' class='block' style='display:none' >
 	function _f($controller, $action, $params = array()){
+        $mvc = MVC_PATH_PREFIX;
+        
         //, $mp = false, $etc = ''
         $str = "<form ";
         if(!empty($params['method'])){
@@ -14,7 +16,7 @@
         // Если есть добавить параметры
         if(!empty($params['params'])){$p = "&amp;".htmlspecialchars($params['params']);}
         // Формируем действие
-        $str .= "action='/$controller/$action/$p' ";
+        $str .= "action='$mvc$controller/$action/$p' ";
         // Если передача файлов
         if($params['multipart']){$str .= "enctype='multipart/form-data' ";}
         // прочее
@@ -39,7 +41,7 @@
         if(!empty($value)){$str .= "value='$value' ";}
         // прочее
         if(!empty($params)){$str .= "$params ";}
-        $str .= ' />';
+        $str .= " />\n";
         return $str;
     }
     function itp($obj, $name, $value = '', $params = ''){
@@ -47,12 +49,12 @@
     }
     /**************************************************************************************************/
     // INPUT SUBMIT and INPUT SUBMIT PRINT
-    function is($value = ''){
+    function submit($value = '', $print = true){
         if(!empty($value)){$value ="value = '$value'";}
-        return "<input name='submit' type='submit' $value />";
-    }
-    function isp($value = ''){
-        echo is($value);
+        $str = "<input name='submit' type='submit' $value />\n";
+        
+        // print or return
+        if($print){echo $str;}else{return $str;}
     }
     /**************************************************************************************************/
 ?>

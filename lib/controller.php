@@ -68,8 +68,9 @@
             }
         }
         function add_css($file){
-            $css = PUBLIC_PATH."css/".$file;
-            $this->data['css'][$css] = true;
+          $mvc = MVC_PATH_PREFIX;
+          $css_file_path = $mvc.PUBLIC_PATH."css/".$file;
+          $this->data['css'][$css_file_path] = true;
         }
         function css_print(){
             if(!isset($this->data['css'])) return false;
@@ -116,17 +117,18 @@
     }
 	// Исполняет действие Контроллера по данным FrameWork'а
 	function controller_execute(&$fw){
-        if(file_exists($fw->model_path))        require_once($fw->model_path);          // Подключение Модели, если она существует
-        if(file_exists($fw->filter_path))       require_once($fw->filter_path);         // Подключение Фильтрации Модели, если она существует
-        if(file_exists($fw->validator_path))    require_once($fw->validator_path);      // Подключение Валидации Модели, если она существует
-        controller_exists($fw->controller_path);               							// Проверка существования Контроллера
-		require_once($fw->controller_path);            							
-        $c = new $fw->controller(&$fw);                       							// Создание контроллера
+        // removed by ActiveRecord
+        //if(file_exists($fw->model_path))        require_once($fw->model_path);          // Подключение Модели, если она существует
+        //if(file_exists($fw->filter_path))       require_once($fw->filter_path);         // Подключение Фильтрации Модели, если она существует
+        //if(file_exists($fw->validator_path))    require_once($fw->validator_path);      // Подключение Валидации Модели, если она существует
+        controller_exists($fw->controller_path);                                        // Проверка существования Контроллера
+        require_once($fw->controller_path);            							
+        $c = new $fw->controller(&$fw);                                                 // Создание контроллера
         $action = $fw->action;
-        action_exists($c, $action);                           							// Проверка на существование действия в контроллере
-        $c->$action();                                        						    // Вызов действия контроллера
+        action_exists($c, $action);                                                     // Проверка на существование действия в контроллере
+        $c->$action();                                                                  // Вызов действия контроллера
         $c->delete_flash();
-        unset($c);                                            							// Удаление объекта контроллера (вызов деструктора + запуск after фильтров)
+        unset($c);                                                                      // Удаление объекта контроллера (вызов деструктора + запуск after фильтров)
         exit;
 	}
 ?>
