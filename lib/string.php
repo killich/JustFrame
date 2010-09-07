@@ -11,6 +11,7 @@
 	function underscore($str){
 		return preg_replace('/\s+/', '_', trim($str));
 	}
+  // Jast string functions
 	function nbsp2space($str){
 		return preg_replace('/&nbsp;/', ' ', trim($str));
 	}

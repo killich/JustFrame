@@ -4,23 +4,20 @@
 ?>
     
 <table border="1">
-	<tr>
-		<th>Идентификатор</th>
-		<th>Логин</th>
-		<th>email</th>
-		<th>crypted_password</th>
-		<th>Имя</th>
-		<th>Отчество</th>
-		<th>Фамилия</th>
-		<th>Удаление</th>
-		<th>Редактирование</th>
-	</tr>
+  <?php
+    $h = array('Идентификатор', 'Логин', 'email', 'crypted_password', 'Имя');
+    $str = '';
+    foreach($h as $v){
+      $str .= "<th>$v</th>";
+    }
+    echo "<tr>$str</th>";
+  ?>
   
 	<?php
     $str = '';
     foreach($data['users'] as $user){ 
-      $str .= _fragment('users/user_block', array('user'=>$user->username, 'test'=>'Hello World!'));
+      $str .= _partial('users/user_block', array('login'=>$user->username, 'test'=>'Hello World!'));
     }
-    echo $str;
+    echo "<tr>$str</tr>";
   ?>
 </table>

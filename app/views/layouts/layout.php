@@ -11,7 +11,7 @@
 		<script src="/public/js/jq.min.js" type="text/javascript"></script>
 		<script src="/public/js/jqui.min.js" type="text/javascript"></script>
 		
-		<?php echo $c->css_print(); ?>
+		<?php echo $layout->css(); ?>
             
 		<script type="text/javascript">
 		//<![CDATA[
@@ -43,7 +43,7 @@
 	<body>
         <?
             flash($data['flash']);
-            //$stdout['users'];
+            echo $layout->fragment['users'];
 
         ?>
 	</body>

@@ -1,6 +1,6 @@
 <?php
-  require_once(__DIR__.'/../../config/consts.php');
-  define("VIEW_TEMPLATES_PATH", __DIR__."/../../".VIEW_PATH);
+  require_once(__DIR__.'/../config/consts.php');
+  define("VIEW_TEMPLATES_PATH", __DIR__."/../".VIEW_PATH);
 	
   // ВЫПОЛНИТЬ ШАБЛОН
   // Откыть запись в буфер, вывести туда код, получить содержимое буфера, очистить буфер	
@@ -9,12 +9,10 @@
     // Переменная FrameWork - содержит action, controller
     // Переменная Data - данные передаваемые шаблону
     // Переменная View_Fragment - всякие фрагменты передаваемые на отрисовку
-    // Переменная CurrentUser - должен быть текущий пользователь
     $framework = &$controller->framework;
     $data = &$controller->data;
     $layout = &$controller;
     $view_fragment = &$controller->view_fragment;
-    $current_user = &$controller->current_user;
     
     // ВЫПОЛНЕНИЕ ШАБЛОНА
 		$file_text = file_get_contents($file);
@@ -29,7 +27,7 @@
   
   // ОТРИСОВАТЬ ФРАГМЕНТ (например, users/some_partial ==> users/_some_partial.php)
   // $file = "a/b" ==> $path = "a/_b.php"
-  function _fragment($file, $vars = array()){
+  function _partial($file, $vars = array()){
     // Получить содержимое файла-шаблона
     $path = explode('/', $file);
     $path = "$path[0]/_$path[1].php";
@@ -69,8 +67,8 @@
 		return $output;
   }
   
-  // ОТРИСОВАТЬ ШАБЛОН
-	function render($file, &$controller){
+  // ОТРИСОВАТЬ Фрагмент
+	function fragment($file, &$controller){
     $path = explode('/', $file);
     $path = "$path[0]/$path[1].php";
     $path = VIEW_TEMPLATES_PATH."$path";
@@ -78,14 +76,14 @@
 	}
   
   // ОТРИСОВАТЬ МАКЕТ
-  function layout($layout, &$c){
+  function layout($file, &$controller){
     // Регистрация переменных
-    $fw = &$c->fw;
-    $data = &$c->data;
-    $view_fragment = &$c->view_fragment;
-    $current_user = &$c->current_user;
+    $framework = &$controller->framework;
+    $data = &$controller->data;
+    $layout = &$controller;
+    $fragment = &$controller->fragment;
     // Подключение макета
-    require_once(LAYOUT_PATH."$layout.php");
+    require_once(LAYOUT_PATH."$file.php");
   }
   
   // REDIRECT  
@@ -100,12 +98,12 @@
     echo "<div class='flash'>";
     if(is_string($flash)){echo $flash;}
     else{
-        foreach($flash as $key => $values){
-            echo "<h3 class='flash_header'>$key</h3>";
-            foreach($values as $index => $msg){
-                echo "<p class='flash_msg'>$msg</p>";
-            }
+      foreach($flash as $key => $values){
+        echo "<h3 class='flash_header'>$key</h3>";
+        foreach($values as $index => $msg){
+          echo "<p class='flash_msg'>$msg</p>";
         }
+      }
     }
     echo "</div>";
   }

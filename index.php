@@ -19,7 +19,7 @@
   //error_reporting(0);                               // Отключение вывода ошибок
   require_once('./config/consts.php');                // Подключение конфигураций
   require_once('./config/data_base_connect.php');     // Подключение соединения с БД
-  require_once(LIB_PATH.'/file_helpers/file.php');    // Базовые функции-помощники работы с файлами
+  require_once(LIB_PATH.'/file_helpers.php');    // Базовые функции-помощники работы с файлами
   require_files_from(LIB_PATH);                       // Загрузка всех базовых компонент
   session_open();                                     // Открыть сессию
   
@@ -29,6 +29,7 @@
   
   ActiveRecord\Config::initialize(function($cfg){
     $cfg->set_model_directory(MODEL_PATH);
+    // mysql://root:secret-word@site-name.com/joomla_db_name?charset=UTF8 
     $cfg->set_connections(array('development' => 'mysql://'.DATABASE_USER.':'.DATABASE_PASSWORD.'@'.DATABASE_HOST.'/'.DATABASE_NAME.'?charset=UTF8'));
   });
 

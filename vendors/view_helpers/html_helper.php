@@ -35,17 +35,16 @@
     if($print){echo $str;}else{return $str;}
   }
   
-  function content_tag($tag, $txt, $args = array(), $print = true){
+  function content_tag($tag, $txt, $args = array()){
     // params processing
     $params = '';
-      if($args['params']){
-      $params = $args['params'];
+    if($args['params']){
+      $params .= ' '.$args['params'];
     }
     
     // String forming
-    $str = "<$tag $params>$txt</$tag>";
-    
-    // print or return
-    if($print){echo $str;}else{return $str;}
+    $str = "<$tag$params>$txt</$tag>";
+
+    return $str;
   }
 ?>
