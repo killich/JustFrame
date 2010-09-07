@@ -1,18 +1,20 @@
 <?php
   require_once(__DIR__.'/../../config/consts.php');
+  define("VIEW_TEMPLATES_PATH", __DIR__."/../../".VIEW_PATH);
 	
   // ВЫПОЛНИТЬ ШАБЛОН
   // Откыть запись в буфер, вывести туда код, получить содержимое буфера, очистить буфер	
-	function template_evalute($file, &$c){
+	function template_evalute($file, &$controller){
     // РЕГИСТРАЦИЯ ПЕРЕМЕННЫХ
     // Переменная FrameWork - содержит action, controller
     // Переменная Data - данные передаваемые шаблону
-    // Переменная StdOut - свякие фрагменты передаваемые на отрисовку
+    // Переменная View_Fragment - всякие фрагменты передаваемые на отрисовку
     // Переменная CurrentUser - должен быть текущий пользователь
-    $fw = &$c->fw;
-    $data = &$c->data;
-    $stdout = &$c->stdout;
-    $current_user = &$c->current_user;
+    $framework = &$controller->framework;
+    $data = &$controller->data;
+    $layout = &$controller;
+    $view_fragment = &$controller->view_fragment;
+    $current_user = &$controller->current_user;
     
     // ВЫПОЛНЕНИЕ ШАБЛОНА
 		$file_text = file_get_contents($file);
@@ -27,11 +29,11 @@
   
   // ОТРИСОВАТЬ ФРАГМЕНТ (например, users/some_partial ==> users/_some_partial.php)
   // $file = "a/b" ==> $path = "a/_b.php"
-  function partial($file, $vars = array()){
+  function _fragment($file, $vars = array()){
     // Получить содержимое файла-шаблона
     $path = explode('/', $file);
     $path = "$path[0]/_$path[1].php";
-    $file_text = file_get_contents(__DIR__."/../../".VIEW_PATH."/$path");
+    $file_text = file_get_contents(VIEW_TEMPLATES_PATH."/$path");
     
     // SOURCE: array('user'=>'John') ==> CODE: $user = $vars['user'];
     $code = '';
@@ -57,7 +59,7 @@
   function mvc_partial($file){
     $path = explode('/', $file);
     $path = "$path[0]/_$path[1].php";
-		$file_text = file_get_contents(__DIR__."/../../".VIEW_PATH."/$path");
+		$file_text = file_get_contents(VIEW_TEMPLATES_PATH."/$path");
 		$code = ' ?>'.$file_text.'<?php ';
 		$output = '';
 		ob_start();
@@ -68,9 +70,11 @@
   }
   
   // ОТРИСОВАТЬ ШАБЛОН
-	function render($file, &$c){
-    $file = $c->fw->view_path."$file.php";
-    return template_evalute($file, $c);
+	function render($file, &$controller){
+    $path = explode('/', $file);
+    $path = "$path[0]/$path[1].php";
+    $path = VIEW_TEMPLATES_PATH."$path";
+    return template_evalute($path, $controller);
 	}
   
   // ОТРИСОВАТЬ МАКЕТ
@@ -78,7 +82,7 @@
     // Регистрация переменных
     $fw = &$c->fw;
     $data = &$c->data;
-    $stdout = &$c->stdout;
+    $view_fragment = &$c->view_fragment;
     $current_user = &$c->current_user;
     // Подключение макета
     require_once(LAYOUT_PATH."$layout.php");

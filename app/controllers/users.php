@@ -2,24 +2,22 @@
 	class Users extends Controller{
         // Конструктор - функция, которая выполняется в время создания экземпляра контроллера
         // все что выполнится здесь - выполнится до выполнения любого действия
-        function __construct(&$fw){
+        function __construct(&$framework){
             // before filoters: Фильтры - функции, которые должны выполнится перед(после) указанных действий
             // Перед действиями create, registration должна выполнится ф-ия init_filter_and_validator
             $this->before_action( array('create', 'registration'), array('init_filter_and_validator') );   
-            
             //$this->after_action(array('index', 'create'), array('after_msg'));
-            
             // Вызов конструктора ПРЕДКА данного класса
             // Чтобы инициализировать все необходимы переменные
-            parent::__construct($fw);
+            parent::__construct($framework);
         }
         // PUBLIC methods [Публичные методы]
         // Обрабатывают действия контроллера
 		function index(){
       $this->data['users'] = User::all();
-      $this->stdout['users'] = render('index', $this);  // Отрисовка куска страницы (Вид View)
-      echo  $this->stdout['users'];
-      //layout('layout', $this);                          // Отрисовка кусков страницы в макете (Вид Layout)
+      $this->view_fragment['users'] = render('users/index', $this);  // Отрисовка куска страницы (Вид View)
+      //echo  $this->view_fragment['users'];
+      layout('layout', $this);                          // Отрисовка кусков страницы в макете (Вид Layout)
 		}
         // Шаблон отрисовывает объект data['flash']
         // Если там, есть ошибки (хеш), то будут выведены сообщения об ошибках
@@ -33,7 +31,7 @@
                 go_to('/');                                     // переход на другую страницу
             }
             $this->data['users'] = select_users();              // Выборка данных (Модель)
-            $this->stdout['content'] = render('index', $this);  // Отрисовка данных в шаблоне (View)
+            $this->view_fragment['content'] = render('index', $this);  // Отрисовка данных в шаблоне (View)
             layout('layout', $this);                            // Отрисовка шаблонов в макете (Layout) /app/view/layout
             */
 		}
@@ -44,7 +42,7 @@
 		}
         // TODO
 		function signup(){
-            $this->stdout['content'] = render('_login_form', $this);
+            $this->view_fragment['content'] = _partial('users/login_form', array('c'=>$this));
             layout('layout', $this);
 		}
 		function registration(){
@@ -66,7 +64,7 @@
             // Отрисока пользователей
             // Показ сообщения об ошибках (flash рисуется через layout)
             $this->data['users'] = select_users();          
-            $this->stdout['content'] = render('index', $this);
+            $this->view_fragment['content'] = render('index', $this);
             */
             echo 'hello from registrator';
             layout('layout', $this);

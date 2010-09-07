@@ -1,6 +1,6 @@
 <?php
-    $c->add_css('flash.css');
-    $c->add_css('test.css');
+    $layout->add_css('flash');
+    $layout->add_css('test');
 ?>
     
 <table border="1">
@@ -19,7 +19,7 @@
 	<?php
     $str = '';
     foreach($data['users'] as $user){ 
-      $str .= partial('users/user_block', array('user'=>$user->username, 'test'=>'Hello World!'));
+      $str .= _fragment('users/user_block', array('user'=>$user->username, 'test'=>'Hello World!'));
     }
     echo $str;
   ?>

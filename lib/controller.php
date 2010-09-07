@@ -21,7 +21,7 @@
 	//Класс Контроллера
 	class Controller extends BaseController{
 		// Сквозные данные
-		var $fw;
+		var $framework;
         
 		var $data = array();
         var $stdout= array();
@@ -30,12 +30,12 @@
         var $after_filters= array();
         
         // Базовый конструктор // Вызывает фильтры перед действием
-        function __construct($fw){
+        function __construct($framework){
             // регистрация объекта внутри экземпляра класса
-            $this->fw = $fw;
+            $this->framework = $framework;
             // запуск фильтров before
-            if(array_key_exists($fw->action, $this->before_filters)){
-                foreach($this->before_filters[$fw->action] as $fn){
+            if(array_key_exists($framework->action, $this->before_filters)){
+                foreach($this->before_filters[$framework->action] as $fn){
                     $this->$fn();
                 }
             }
@@ -43,10 +43,10 @@
         }
         // Базовый деструктор // Вызывает фильтры после действия
         function __destruct(){
-            $fw = $this->fw;
+            $framework = $this->framework;
             // запуск фильтров before
-            if(array_key_exists($fw->action, $this->after_filters)){
-                foreach($this->after_filters[$fw->action] as $fn){
+            if(array_key_exists($framework->action, $this->after_filters)){
+                foreach($this->after_filters[$framework->action] as $fn){
                     $this->$fn();
                 }
             }
@@ -69,14 +69,14 @@
         }
         function add_css($file){
           $mvc = MVC_PATH_PREFIX;
-          $css_file_path = $mvc.PUBLIC_PATH."css/".$file;
+          $css_file_path = $mvc.PUBLIC_PATH."css/$file.css";
           $this->data['css'][$css_file_path] = true;
         }
         function css_print(){
-            if(!isset($this->data['css'])) return false;
-            foreach($this->data['css'] as $k => $v){
-                echo "<link rel='stylesheet' href='".$k."' type='text/css' media='screen' />\n";
-            }
+          if(!isset($this->data['css'])) return false;
+          foreach($this->data['css'] as $k => $v){
+            echo "<link rel='stylesheet' href='".$k."' type='text/css' media='screen' />\n";
+          }
         }
 	}
     // Функция использует класс ReflectionMethod, который встроен в PHP5
@@ -116,19 +116,15 @@
         }
     }
 	// Исполняет действие Контроллера по данным FrameWork'а
-	function controller_execute(&$fw){
-        // removed by ActiveRecord
-        //if(file_exists($fw->model_path))        require_once($fw->model_path);          // Подключение Модели, если она существует
-        //if(file_exists($fw->filter_path))       require_once($fw->filter_path);         // Подключение Фильтрации Модели, если она существует
-        //if(file_exists($fw->validator_path))    require_once($fw->validator_path);      // Подключение Валидации Модели, если она существует
-        controller_exists($fw->controller_path);                                        // Проверка существования Контроллера
-        require_once($fw->controller_path);            							
-        $c = new $fw->controller(&$fw);                                                 // Создание контроллера
-        $action = $fw->action;
-        action_exists($c, $action);                                                     // Проверка на существование действия в контроллере
-        $c->$action();                                                                  // Вызов действия контроллера
-        $c->delete_flash();
-        unset($c);                                                                      // Удаление объекта контроллера (вызов деструктора + запуск after фильтров)
+	function controller_execute(&$framework){
+        controller_exists($framework->controller_path);                                        // Проверка существования Контроллера
+        require_once($framework->controller_path);            							
+        $controller = new $framework->controller(&$framework);                                                 // Создание контроллера
+        $action = $framework->action;
+        action_exists($controller, $action);                                                     // Проверка на существование действия в контроллере
+        $controller->$action();                                                                  // Вызов действия контроллера
+        $controller->delete_flash();
+        unset($controller);                                                                      // Удаление объекта контроллера (вызов деструктора + запуск after фильтров)
         exit;
 	}
 ?>
