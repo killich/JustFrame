@@ -1,0 +1,13 @@
+#AddType "text/html; charset=windows-1251" .html
+#AddType "text/html; charset=utf-8" .html
+AddDefaultCharset Off
+#AddType application/x-httpd-php .php .php3 .php4 .php5 .phtml .html
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^_mvc/public/(.*)$           _mvc/public/$1                                 [L]			    # _mvc/public/ ..все что угодно..
+    RewriteRule ^_mvc/tools/(.*)$            _mvc/tools/$1										              [L]			    # _mvc/tools/ ..все что угодно..
+    RewriteRule ^_mvc/(.*)/(.*)/(.*)$        _mvc/index.php?controller=$1&action=$2&$3      [L] 		    # _mvc/students/test/a=5&b=6 => index.php?controller=students&action=test&a=5&b=6
+    RewriteRule ^_mvc/(.*)/(.*)$             _mvc/index.php?controller=$1&action=$2			    [L]         # _mvc/students/test => index.php?controller=students&action=test
+    RewriteRule ^_mvc/(.*)$                  _mvc/index.php										              [L]         # _mvc/bla-bla => index.php
+    ErrorDocument 404                        /404page.html
+</IfModule>
