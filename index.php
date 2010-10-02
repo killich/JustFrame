@@ -27,6 +27,7 @@
   // DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD
   vendor('activerecord');
   vendor('haml');
+  vendor('haml_jf_render');
   
   ActiveRecord\Config::initialize(function($cfg){
     $cfg->set_model_directory(MODEL_PATH);

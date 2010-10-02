@@ -18,6 +18,7 @@
     define("CONTROLLER_PATH", "./app/controllers/");
     define("LAYOUT_PATH", "./app/views/layouts/");
     define("VENDORS_PATH", "./vendors/");
+    define("TEMP_PATH", "./tmp/");
 
     define("VALIDATION_PATH", "./app/model/validators/");
     define("FILTRATION_PATH", "./app/model/filters/");

@@ -1,7 +1,7 @@
 <?php
-  //Класс Контроллера
+  //РљР»Р°СЃСЃ РљРѕРЅС‚СЂРѕР»Р»РµСЂР°
   class Controller{
-    // Сквозные данные
+    // РЎРєРІРѕР·РЅС‹Рµ РґР°РЅРЅС‹Рµ
     var $framework;
 
     var $data = array();
@@ -9,12 +9,12 @@
 
     var $before_filters= array();
     var $after_filters= array();
-        
-    // Базовый конструктор // Вызывает фильтры перед действием
+
+    // Р‘Р°Р·РѕРІС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ // Р’С‹Р·С‹РІР°РµС‚ С„РёР»СЊС‚СЂС‹ РїРµСЂРµРґ РґРµР№СЃС‚РІРёРµРј
     function __construct($framework){
-      // регистрация объекта внутри экземпляра класса
+      // СЂРµРіРёСЃС‚СЂР°С†РёСЏ РѕР±СЉРµРєС‚Р° РІРЅСѓС‚СЂРё СЌРєР·РµРјРїР»СЏСЂР° РєР»Р°СЃСЃР°
       $this->framework = $framework;
-      // запуск фильтров before
+      // Р·Р°РїСѓСЃРє С„РёР»СЊС‚СЂРѕРІ before
       if(array_key_exists($framework->action, $this->before_filters)){
         foreach($this->before_filters[$framework->action] as $fn){
           $this->$fn();
@@ -22,10 +22,10 @@
       }
     }// __construct
     
-    // Базовый деструктор // Вызывает фильтры после действия
+    // Р‘Р°Р·РѕРІС‹Р№ РґРµСЃС‚СЂСѓРєС‚РѕСЂ // Р’С‹Р·С‹РІР°РµС‚ С„РёР»СЊС‚СЂС‹ РїРѕСЃР»Рµ РґРµР№СЃС‚РІРёСЏ
     function __destruct(){
       $framework = $this->framework;
-      // запуск фильтров after
+      // Р·Р°РїСѓСЃРє С„РёР»СЊС‚СЂРѕРІ after
       if(array_key_exists($framework->action, $this->after_filters)){
         foreach($this->after_filters[$framework->action] as $fn){
           $this->$fn();
@@ -50,7 +50,7 @@
     }
     // ==================================================================   
 
-    // Регистрация фильтров для действий
+    // Р РµРіРёСЃС‚СЂР°С†РёСЏ С„РёР»СЊС‚СЂРѕРІ РґР»СЏ РґРµР№СЃС‚РІРёР№
     // ==================================================================
     function before_action($actions = array(), $filters = array()){
       foreach($actions as $action){
@@ -78,8 +78,8 @@
     }
 	}
   
-  // Функция использует класс ReflectionMethod, который встроен в PHP5
-  // Определяет тип метода заданного класса
+  // Р¤СѓРЅРєС†РёСЏ РёСЃРїРѕР»СЊР·СѓРµС‚ РєР»Р°СЃСЃ ReflectionMethod, РєРѕС‚РѕСЂС‹Р№ РІСЃС‚СЂРѕРµРЅ РІ PHP5
+  // РћРїСЂРµРґРµР»СЏРµС‚ С‚РёРї РјРµС‚РѕРґР° Р·Р°РґР°РЅРЅРѕРіРѕ РєР»Р°СЃСЃР°
   // http://php.net/manual/en/function.method-exists.php
   function is_class_method($type="public", $method, $class){
     $refl = new ReflectionMethod($class, $method);
@@ -98,36 +98,36 @@
   
   function controller_exists($path){
     if(!file_exists($path)){
-      echo 'Не найден файл-обработчик (Controller not found)'; br();
-      echo '<a href="/">На главную</a>';
+      echo 'РќРµ РЅР°Р№РґРµРЅ С„Р°Р№Р»-РѕР±СЂР°Р±РѕС‚С‡РёРє (Controller not found)'; br();
+      echo '<a href="/">РќР° РіР»Р°РІРЅСѓСЋ</a>';
       exit();
     }
   }
   
   function action_exists($controller, $action){
     if(!method_exists($controller, $action)){
-      echo 'Не найден метод-обработчик: '. $action .' (Action not found) :: Error code 1 <br />';
-      echo '<a href="/">На главную</a>';
+      echo 'РќРµ РЅР°Р№РґРµРЅ РјРµС‚РѕРґ-РѕР±СЂР°Р±РѕС‚С‡РёРє: '. $action .' (Action not found) :: Error code 1 <br />';
+      echo '<a href="/">РќР° РіР»Р°РІРЅСѓСЋ</a>';
       exit();
     }
     if(!is_class_method('public', $action, get_class($controller))){
-      echo 'Не найден метод-обработчик: '. $action .' (Action not found) :: Error code 2 <br />';
-      echo '<a href="/">На главную</a>';
+      echo 'РќРµ РЅР°Р№РґРµРЅ РјРµС‚РѕРґ-РѕР±СЂР°Р±РѕС‚С‡РёРє: '. $action .' (Action not found) :: Error code 2 <br />';
+      echo '<a href="/">РќР° РіР»Р°РІРЅСѓСЋ</a>';
       exit();
     }
   }
   
-  // Исполняет действие Контроллера по данным FrameWork'а
+  // РСЃРїРѕР»РЅСЏРµС‚ РґРµР№СЃС‚РІРёРµ РљРѕРЅС‚СЂРѕР»Р»РµСЂР° РїРѕ РґР°РЅРЅС‹Рј FrameWork'Р°
   function controller_execute(&$framework){
     $controller_path = CONTROLLER_PATH.strtolower("$framework->controller.php");
-    controller_exists($controller_path);                                          // Проверка существования Контроллера
+    controller_exists($controller_path);                                          // РџСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ РљРѕРЅС‚СЂРѕР»Р»РµСЂР°
     require_once($controller_path);
-    $controller = new $framework->controller(&$framework);                        // Создание контроллера
+    $controller = new $framework->controller(&$framework);                        // РЎРѕР·РґР°РЅРёРµ РєРѕРЅС‚СЂРѕР»Р»РµСЂР°
     $action = $framework->action;
-    action_exists($controller, $action);                                          // Проверка на существование действия в контроллере
-    $controller->$action();                                                       // Вызов действия контроллера
+    action_exists($controller, $action);                                          // РџСЂРѕРІРµСЂРєР° РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ РґРµР№СЃС‚РІРёСЏ РІ РєРѕРЅС‚СЂРѕР»Р»РµСЂРµ
+    $controller->$action();                                                       // Р’С‹Р·РѕРІ РґРµР№СЃС‚РІРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂР°
     $controller->delete_flash();
-    unset($controller);                                                           // Удаление объекта контроллера (вызов деструктора + запуск after фильтров)
+    unset($controller);                                                           // РЈРґР°Р»РµРЅРёРµ РѕР±СЉРµРєС‚Р° РєРѕРЅС‚СЂРѕР»Р»РµСЂР° (РІС‹Р·РѕРІ РґРµСЃС‚СЂСѓРєС‚РѕСЂР° + Р·Р°РїСѓСЃРє after С„РёР»СЊС‚СЂРѕРІ)
     exit;
   }
 ?>
