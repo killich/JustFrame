@@ -1,13 +1,13 @@
-#AddType "text/html; charset=windows-1251" .html
-#AddType "text/html; charset=utf-8" .html
-#AddDefaultCharset Off
-#AddType application/x-httpd-php .php .php3 .php4 .php5 .phtml .html
-#<IfModule mod_rewrite.c>
-#	RewriteEngine On
-#    RewriteRule ^(public)(.*)$ $1$2                                      [L]			    # public/ ..все что угодно..
-#    RewriteRule ^(tools)(.*)$ $1$2										                    [L]			    # tools/ ..все что угодно..
-#    RewriteRule ^(.*)/(.*)/(.*)$ index.php?controller=$1&action=$2&$3    [L] 		    # students/test/a=5&b=6 => index.php?controller=students&action=test&a=5&b=6
-#    RewriteRule ^(.*)/(.*)$ index.php?controller=$1&action=$2			      [L]         # students/test => index.php?controller=students&action=test
-#    RewriteRule ^(.*)$ index.php										                      [L]         # bla-bla => index.php
-#    ErrorDocument 404 /404page.html
-#</IfModule>
+AddType "text/html; charset=windows-1251" .html
+AddType "text/html; charset=utf-8" .html
+AddDefaultCharset Off
+AddType application/x-httpd-php .php .php3 .php4 .php5 .phtml .html
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+    RewriteRule ^(public)(.*)$ $1$2                                       [L]			    # public/ ..все что угодно..
+    RewriteRule ^(tools)(.*)$ $1$2                                        [L]			    # tools/ ..все что угодно..
+    RewriteRule ^(.*)/(.*)/(.*)$ index.php?controller=$1&action=$2&$3     [L] 		    # students/test/a=5&b=6 => index.php?controller=students&action=test&a=5&b=6
+    RewriteRule ^(.*)/(.*)$ index.php?controller=$1&action=$2             [L]         # students/test => index.php?controller=students&action=test
+    RewriteRule ^(.*)$ index.php                                          [L]         # bla-bla => index.php
+    ErrorDocument 404 /404page.html
+</IfModule>

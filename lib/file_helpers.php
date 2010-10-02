@@ -1,20 +1,24 @@
 <?php
-	// Ïîëó÷åíèå ìàññèâà ñ èìåíàìè ôàéëîâ äàííîé äèðåêòîðèè
-	function directory_files($dir_path){
-		$arr = array();
-		$dir = opendir($dir_path);
-		while($file = readdir($dir)){
-			if($file!='.' && $file!='..' && filetype($dir_path.$file)=='file'){
-				$arr[] = $file;
-			}
-		}
-		return $arr;
-	}
-	// Ïîäêëþ÷åíèå ôàéëîâ â óêàçàííîì êàòàëîãå
-	function require_files_from($dir_path){
-        $files = directory_files("$dir_path/");
-        foreach($files as $file){
-            require_once("$dir_path/$file");
-        }
-	}
+  // ÐŸÐ¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð¼Ð°ÑÑÐ¸Ð²Ð° Ñ Ð¸Ð¼ÐµÐ½Ð°Ð¼Ð¸ Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð´Ð°Ð½Ð½Ð¾Ð¹ Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ð¸
+  function directory_files($dir_path){
+    $arr = array();
+    $dir = opendir($dir_path);
+    while($file = readdir($dir)){
+      if($file!='.' && $file!='..' && filetype($dir_path.$file)=='file'){
+        $arr[] = $file;
+      }
+    }
+    return $arr;
+  }
+  // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð² ÑƒÐºÐ°Ð·Ð°Ð½Ð½Ð¾Ð¼ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ðµ
+  function require_files_from($dir_path){
+    $files = directory_files("$dir_path/");
+      foreach($files as $file){
+        require_once("$dir_path/$file");
+    }
+  }
+  // ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð²ÐµÐ½Ð´Ð¾Ñ€Ð¾Ð²
+  function vendor($name){
+    require_once(VENDORS_PATH."$name/init.php");
+  }
 ?>
