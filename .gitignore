@@ -3,6 +3,8 @@
 *Thumbs.db*
 *.DS_Store*
 
+tmp/haml_compiled_files
+
 public/system
 public/uploads
 public/*uploads
