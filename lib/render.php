@@ -38,6 +38,9 @@
     foreach($vars as $n => $v){
       $code .= '$'.$n.' = &$vars['."'$n'".'];';
     }
+    // foreach ($Variables as $Name => $Value)
+    // {$$Name = $Value;}
+    
     // Регистрация переменных фрагмента
     eval($code);
     

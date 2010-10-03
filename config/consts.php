@@ -7,7 +7,7 @@
     
     # Каталог, в котором хранится mvc (при интеграции mvc в другой проект)
     # mvc directory for integration with another project
-    define("MVC_PATH_PREFIX", '/_mvc/'); // '/_mvc/' or '/' for empty project
+    define("MVC_PATH_PREFIX", ''); // '/_mvc/' or '/' for empty project
     
     # INDEX page routing
     define("ROOT_CONTROLLER", "users");

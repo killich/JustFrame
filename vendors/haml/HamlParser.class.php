@@ -9,7 +9,7 @@
  * @package phpHaml
  */
 
- class HamlParser
+class HamlParser
 {
 	/**
 	 * Haml source
@@ -189,10 +189,11 @@
 	 *
 	 * @return string
 	 */
-	public function render()
-	{
+	public function render(){
+    // Разбор исходного HAML файла в массив по строкам
 		$__aSource = explode(self::TOKEN_LINE, $this->sSource = $this->parseBreak($this->sSource));
 		$__sCompiled = '';
+    // Если строка одна - то достаточно вызвать парсер одной строки
 		if (count($__aSource) == 1)
 			$__sCompiled = $this->parseLine($__aSource[0]);
 		else
@@ -241,21 +242,87 @@
 		return $__sCompiled;
 	}
 	
+  
+	/**
+	 * Return compiled php
+	 *
+	 * @return string
+	 */
+	public function get_php_from_haml(){
+    // Разбор исходного HAML файла в массив по строкам
+		$__aSource = explode(self::TOKEN_LINE, $this->sSource = $this->parseBreak($this->sSource));
+		$__sCompiled = '';
+    // Если строка одна - то достаточно вызвать парсер одной строки
+    // Кажется, он глючит если там стоит: = "some text"
+		if (count($__aSource) == 1)
+			$__sCompiled = $this->parseLine($__aSource[0]);
+		else
+		{
+			if (($__sC = $this->compiled()) && $this->bCompile)
+				$__sCompiled = $__sC;
+			else
+			{
+				$__iIndent = 0;
+				$__iIndentLevel = 0;
+				foreach ($__aSource as $__iKey => $__sLine)
+				{
+					$__iLevel = $this->countLevel($__sLine);
+					if ($__iLevel <= $__iIndentLevel)
+						$__iIndent = $__iIndentLevel = 0;
+					if (preg_match('/\\'.self::TOKEN_LEVEL.'([0-9]+)$/', $__sLine, $__aMatches))
+					{
+						$__iIndent = (int)$__aMatches[1];
+						$__iIndentLevel = $__iLevel;
+						$__sLine = preg_replace('/\\'.self::TOKEN_LEVEL."$__iIndent$/", '', $__sLine);
+					}
+					$__sLine = str_repeat(self::TOKEN_INDENT, $__iIndent * self::INDENT) . $__sLine;
+					$__aSource[$__iKey] = $__sLine;
+					if (preg_match('/^(\s*)'.self::TOKEN_INCLUDE.' (.+)/', $__sLine, $aMatches))
+					{
+						$__sIncludeSource = $this->sourceIndent(file_get_contents($this->getFilename($aMatches[2])), $__iIndent ? $__iIndent : $__iLevel);
+						$__sLine = str_replace($aMatches[1] . self::TOKEN_INCLUDE . " {$aMatches[2]}", $__sIncludeSource, $__sLine);
+						$__aSource[$__iKey] = $__sLine;
+						$this->sSource = implode(self::TOKEN_LINE, $__aSource);
+					}
+				}
+				$__aSource = explode(self::TOKEN_LINE, $this->sSource = $this->parseBreak($this->sSource));
+				$__sCompiled = $this->compile($this->parseFile($__aSource));
+			}
+			foreach (self::$aVariables as $__sName => $__mValue)
+				$$__sName = $__mValue;
+      $c = trim(file_get_contents($__sCompiled));
+			foreach ($this->aFilters as $mFilter)
+				$c = call_user_func($mFilter, $c);
+			return $c;
+		}
+		return $__sCompiled;
+	}
+  
+  
 	/**
 	 * Check for compiled template
 	 * 
 	 * @return string Compiled filename
 	 */
-	public function compiled()
-	{
+  // Проверка нао, что шаблон с таким содержимым уже был скомпилирован
+	public function compiled(){
+    // Если шаблон не должен быть скомпилирован - то вернуть false
 		if (!$this->bCompile)
 			return false;
+    // Хеш исходника
 		$sSourceHash = '';
+    // Если существует функция hash, то сделать хеш через нее
+    // Иначе через функцию md5
 		if (function_exists('hash'))
 			$sSourceHash = hash('md5', $this->sSource);
 		else
 			$sSourceHash = md5($this->sSource);
+    
+    // Сформировать путь к файлу со скомпилированным шаблоном
 		$sFilename = "{$this->sTmp}/$sSourceHash.hphp";
+    
+    // Если файл существует - то вернуть его имя
+    // Иначе false
 		if (file_exists($sFilename))
 			return $sFilename;
 		else
@@ -268,6 +335,9 @@
 	 * @param string Compiled template
 	 * @return string Filename
 	 */
+   
+ // Получает как аргумент PHP скомпилированный из HAML
+ // Сохраняет PHP в файд
 	public function compile($sCompiled)
 	{
 		$sSourceHash = '';
