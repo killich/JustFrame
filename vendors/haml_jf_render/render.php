@@ -11,7 +11,7 @@
     $parser = new HamlParser(LAYOUT_PATH, HAML_COMPILED_TEMPLATES_PATH);
     //$parser->setSource(file_get_contents($this->sFile));
     $parser->setSource(file_get_contents(LAYOUT_PATH."$file.haml"));
-    echo $parser->fetch();
+    echo $parser->render();
   }
   
 	/**
