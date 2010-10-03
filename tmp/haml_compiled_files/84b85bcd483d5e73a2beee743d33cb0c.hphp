@@ -1,21 +1,0 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html>
-  <head>
-    <title>      Example №3
-</title>
-    <meta<?php hamlWriteAttributes(array ('http-equiv' => 'Content-Type', 'content' => 'application/xhtml+xml; charset=utf-8')); ?> />
-    <link<?php hamlWriteAttributes(array ('rel' => 'stylesheet', 'href' => '/public/css/basic.css', 'type' => 'text/css', 'media' => 'screen')); ?> />
-    <?php echo $layout->css();; ?>
-    
-    
-  </head>
-  <body>
-    <h1>      HELLO
-</h1>
-    <div>
-<?php 2 + 4; ?>
-      <?php echo $layout->fragment['users'];; ?>
-      
-    </div>
-  </body>
-</html>
